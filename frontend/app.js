@@ -1,9 +1,7 @@
 
-// app.js - ES Module-like structure
+// app.js - ES Module-like structure with DEMO MODE
 
-const API_BASE = "/api/movies";
-// Note: In local development, this relative path works if backend serves frontend.
-// If using live server separately, we might need full URL, but let's assume served together.
+const API_BASE = "http://localhost:3000/api/movies";
 
 // STATE
 const state = {
@@ -34,28 +32,128 @@ async function init() {
 
 async function fetchMovies() {
     try {
-        // We fetch ALL movies once for this SPA demo to make filtering instant
-        // In a huge real app, we would fetch params from server.
+        console.log("Fetching from:", API_BASE);
         const res = await fetch(API_BASE);
-        const data = await res.json();
+        if (!res.ok) throw new Error("API status " + res.status);
 
+        const data = await res.json();
         if (data.ok) {
             state.allMovies = data.movies;
             applyFilters();
         } else {
-            console.error("API Error:", data);
+            throw new Error("API Data Error");
         }
     } catch (e) {
-        console.error("Network Error:", e);
-        // Fallback for when API is not reachable (e.g. static opening)
+        console.warn("Backend unavailable. ACTIVATING DEMO MODE.", e);
+        // Fallback to local data so the user can see the UI design
+        state.allMovies = getDemoData();
+        applyFilters();
     }
+}
+
+function getDemoData() {
+    return [
+        {
+            id: 1,
+            title: "Avatar: The Way of Water",
+            franchise: "disney",
+            category: "Sci-Fi",
+            rating: 4.8,
+            year: 2022,
+            synopsis: "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their home.",
+            poster_url: "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+            backdrop_url: "https://image.tmdb.org/t/p/original/s16H6tpK2utvwDtzZ8Qy4qm5Emw.jpg",
+            is_trending: true
+        },
+        {
+            id: 2,
+            title: "Guardians of the Galaxy Vol. 3",
+            franchise: "marvel",
+            category: "Action",
+            rating: 4.7,
+            year: 2023,
+            synopsis: "Peter Quill, still reeling from the loss of Gamora, must rally his team around him to defend the universe along with protecting one of their own.",
+            poster_url: "https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",
+            backdrop_url: "https://image.tmdb.org/t/p/original/5YZbUmjbMa3ClvSW1Wj3D6XGolb.jpg",
+            is_trending: true
+        },
+        {
+            id: 3,
+            title: "The Mandalorian",
+            franchise: "starwars",
+            category: "Adventure",
+            rating: 4.9,
+            year: 2019,
+            synopsis: "After the fall of the Galactic Empire, lawlessness has spread throughout the galaxy. A lone gunfighter makes his way through the outer reaches, earning his keep as a bounty hunter.",
+            poster_url: "https://image.tmdb.org/t/p/w500/eU1i6eHXlzMOlEq0ku1R07JHLZs.jpg",
+            backdrop_url: "https://image.tmdb.org/t/p/original/6Lw54zxia6h7Gq36RNF3hXPScDB.jpg",
+            is_new: true
+        },
+        {
+            id: 4,
+            title: "Toy Story 4",
+            franchise: "pixar",
+            category: "Animation",
+            rating: 4.5,
+            year: 2019,
+            synopsis: "Woody has always been confident about his place in the world and that his priority is taking care of his kid, whether that's Andy or Bonnie.",
+            poster_url: "https://image.tmdb.org/t/p/w500/w9kR8qbmQ01HwnvK4alvnQ2ca0L.jpg",
+            backdrop_url: "https://image.tmdb.org/t/p/original/m67smI1IIMmYzCl9axvKNULVKLr.jpg",
+            is_trending: false
+        },
+        {
+            id: 5,
+            title: "Inside Out 2",
+            franchise: "pixar",
+            category: "Animation",
+            rating: 4.9,
+            year: 2024,
+            synopsis: "Joy, Sadness, Anger, Fear and Disgust have been running a successful operation by all accounts. However, when Anxiety shows up, they aren't sure how to feel.",
+            poster_url: "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
+            backdrop_url: "https://image.tmdb.org/t/p/original/xg27NrXi7VXCGUr7MG75UqLl6Vg.jpg",
+            is_new: true
+        },
+        {
+            id: 6,
+            title: "Loki",
+            franchise: "marvel",
+            category: "Fantasy",
+            rating: 4.6,
+            year: 2021,
+            synopsis: "The mercurial villain Loki resumes his role as the God of Mischief in a new series that takes place after the events of 'Avengers: Endgame'.",
+            poster_url: "https://image.tmdb.org/t/p/w500/voHUmluYmKyleFkTu3lOXQG702u.jpg",
+            backdrop_url: "https://image.tmdb.org/t/p/original/cm683db98rQpD8w42j74JzP5U7p.jpg"
+        },
+        {
+            id: 7,
+            title: "Limitless with Chris Hemsworth",
+            franchise: "natgeo",
+            category: "Documentary",
+            rating: 4.7,
+            year: 2022,
+            synopsis: "A different way to live better for longer. Chris Hemsworth takes on an epic mission to discover the full potential of the human body.",
+            poster_url: "https://image.tmdb.org/t/p/w500/ms2K926e82B9yYF0FhOXy8v0U84.jpg",
+            backdrop_url: "https://image.tmdb.org/t/p/original/f2t4JbUvQKwD5NuY9S45R7UaJb.jpg"
+        },
+        {
+            id: 8,
+            title: "Star Wars: Andor",
+            franchise: "starwars",
+            category: "Sci-Fi",
+            rating: 4.8,
+            year: 2022,
+            synopsis: "The prequel to Rogue One. In an era filled with danger, deception and intrigue, Cassian will embark on the path that is destined to turn him into a rebel hero.",
+            poster_url: "https://image.tmdb.org/t/p/w500/59SVNwSmV7C2jqGX90Yl1x05QO.jpg",
+            backdrop_url: "https://image.tmdb.org/t/p/original/ajztm40qDPqMONnPJQjek5C16I0.jpg"
+        }
+    ];
 }
 
 // ---------------------------------------------------------
 // LOGIC & FILTERING
 // ---------------------------------------------------------
 function applyFilters() {
-    let result = state.allMovies;
+    let result = state.allMovies || [];
 
     if (state.filters.search) {
         const q = state.filters.search.toLowerCase();
@@ -74,6 +172,7 @@ function applyFilters() {
     }
 
     state.filteredMovies = result;
+    renderGrid();
 }
 
 function setFilter(type, value) {
@@ -84,10 +183,7 @@ function setFilter(type, value) {
         state.filters[type] = value;
     }
 
-    // If setting a franchise, clear category to avoid empty results? Optional.
-
     applyFilters();
-    renderGrid(); // Re-render just the grid
     updateUIState(); // Update active buttons
 }
 
@@ -132,7 +228,7 @@ function renderNavbar() {
 
 function renderHero() {
     // Get trending movies
-    const trending = state.allMovies.filter(m => m.is_trending).slice(0, 3);
+    const trending = state.allMovies ? state.allMovies.filter(m => m.is_trending).slice(0, 3) : [];
     if (trending.length === 0) return '';
 
     return `
@@ -173,7 +269,7 @@ function renderFranchiseNav() {
 
 function renderFilters() {
     // Extract unique categories
-    const categories = [...new Set(state.allMovies.map(m => m.category))].filter(Boolean);
+    const categories = state.allMovies ? [...new Set(state.allMovies.map(m => m.category))].filter(Boolean) : [];
 
     return `
         <div class="filter-bar">
@@ -189,7 +285,7 @@ function renderGrid() {
     const container = document.getElementById("movies-container");
     if (!container) return;
 
-    if (state.filteredMovies.length === 0) {
+    if (!state.filteredMovies || state.filteredMovies.length === 0) {
         container.innerHTML = `<div style="padding:40px; text-align:center; color:#666;">No movies found.</div>`;
         return;
     }
@@ -254,12 +350,12 @@ function setupEventListeners() {
     // Search Debounce
     const searchInput = document.getElementById("search-input");
     let timeout;
-    searchInput.addEventListener("input", (e) => {
+    searchInput?.addEventListener("input", (e) => {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             state.filters.search = e.target.value;
             applyFilters();
-            renderGrid();
+            // renderGrid is called inside applyFilters
         }, 300);
     });
 }
@@ -277,9 +373,10 @@ window.clearFilters = () => {
     state.filters.franchise = null;
     state.filters.category = null;
     state.filters.search = "";
-    document.getElementById("search-input").value = "";
+    const searchInput = document.getElementById("search-input");
+    if (searchInput) searchInput.value = "";
+
     applyFilters();
-    renderGrid();
     updateUIState();
 };
 
