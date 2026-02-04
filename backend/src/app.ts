@@ -24,8 +24,9 @@ export function createApp(db: Db) {
     app.use(express.static(frontendPath));
 
     // SPA Fallback: Serve index.html for any other route
-    app.get("*", (req, res) => {
-        // Don't intercept API calls
+    // Using app.use() without a path matches everything remaining, avoiding regex wildcard issues
+    app.use((req, res) => {
+        // Don't intercept API calls that weren't caught by previous routers
         if (req.path.startsWith("/api")) return res.status(404).json({ error: "Not Found" });
         return res.sendFile(path.join(frontendPath, "index.html"));
     });
