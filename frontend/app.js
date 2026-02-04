@@ -251,14 +251,90 @@ function renderNavbar() {
     `;
 }
 
+// HERO CAROUSEL LOGIC
+let heroInterval;
+let activeHeroIndex = 0;
+let heroMovies = [];
+
+function startHeroCarousel() {
+    clearInterval(heroInterval);
+    heroInterval = setInterval(() => {
+        nextHero();
+    }, 5000); // 5 Seconds auto-rotation
+}
+
+// Global exposure for buttons
+window.nextHero = nextHero;
+window.prevHero = prevHero;
+
+function nextHero() {
+    changeHeroSlide(activeHeroIndex + 1);
+}
+
+function prevHero() {
+    changeHeroSlide(activeHeroIndex - 1);
+}
+
+function changeHeroSlide(newIndex) {
+    if (heroMovies.length === 0) return;
+
+    // Handle Wrapping
+    if (newIndex >= heroMovies.length) newIndex = 0;
+    if (newIndex < 0) newIndex = heroMovies.length - 1;
+
+    // DOM Updates
+    const slides = document.querySelectorAll('.hero-slide');
+    if (!slides.length) return;
+
+    // Current slide moves UP (becomes 'prev')
+    slides[activeHeroIndex].classList.remove('active');
+    slides[activeHeroIndex].classList.add('prev');
+
+    // New slide enters (becomes 'active')
+    // We need to ensure the new slide starts from bottom if going next, or top if going prev?
+    // For simplicity of the CSS (which just has .prev go up and .active be center), 
+    // we simply swap classes. To make it perfect 2-way might require more complex CSS logic.
+    // Given the requested "top to bottom" style, let's reset the 'prev' class to avoid clutter.
+
+    // Clean up old 'prev' classes from others
+    slides.forEach((s, i) => {
+        if (i !== activeHeroIndex && i !== newIndex) {
+            s.classList.remove('active', 'prev');
+        }
+    });
+
+    // Animate
+    setTimeout(() => {
+        slides[newIndex].classList.remove('prev');
+        slides[newIndex].classList.add('active');
+    }, 50); // Small delay to allow CSS to pick up position if needed? 
+    // Actually, with the CSS I wrote: .active is translateY(0), default is translateY(100%), .prev is translateY(-100%)
+    // This creates a flow from Bottom -> Center -> Top.
+
+    activeHeroIndex = newIndex;
+
+    // Restart timer on manual interaction
+    clearInterval(heroInterval);
+    startHeroCarousel();
+}
+
+
 function renderHero() {
-    // Get trending movies
-    const trending = state.allMovies ? state.allMovies.filter(m => m.is_trending).slice(0, 3) : [];
-    if (trending.length === 0) return '';
+    // 1. Get 5 Random Movies
+    // If we have enough movies, pick random. If not, take first 5.
+    if (!state.allMovies || state.allMovies.length === 0) return '';
+
+    // Shuffle copy
+    const shuffled = [...state.allMovies].sort(() => 0.5 - Math.random());
+    heroMovies = shuffled.slice(0, 5);
+    activeHeroIndex = 0;
+
+    // Start Auto Play
+    setTimeout(startHeroCarousel, 100);
 
     return `
         <div class="hero-slider">
-            ${trending.map((movie, index) => `
+            ${heroMovies.map((movie, index) => `
                 <div class="hero-slide ${index === 0 ? 'active' : ''}" style="background-image: url('${movie.backdrop_url || movie.poster_url}')">
                     <div class="hero-content">
                         <div class="hero-logo">${movie.title}</div>
@@ -267,6 +343,21 @@ function renderHero() {
                     </div>
                 </div>
             `).join('')}
+            
+            <div class="hero-controls">
+                <button class="control-btn" onclick="window.prevHero()">
+                    <!-- Up Arrow -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 15L12 9L6 15" />
+                    </svg>
+                </button>
+                <button class="control-btn" onclick="window.nextHero()">
+                    <!-- Down Arrow -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9L12 15L18 9" />
+                    </svg>
+                </button>
+            </div>
         </div>
     `;
 }
