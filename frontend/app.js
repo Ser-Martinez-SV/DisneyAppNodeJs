@@ -1,7 +1,16 @@
 
 // app.js - ES Module-like structure with DEMO MODE
 
-const API_BASE = "http://localhost:3000/api/movies";
+// CONFIGURATION
+// Since we are now serving frontend from the backend, we can use relative path!
+// But if you run them separately, you might need the full URL.
+const API_URLS = [
+    "/api/movies", // Preferred: Relative path (works when served by Backend)
+    "https://obscure-enigma-pjw96r4pgrw7c9wpr-3000.app.github.dev/api/movies", // Your specific Codespace
+    "http://localhost:3000/api/movies" // Local Fallback
+];
+
+let API_BASE = API_URLS[0];
 
 // STATE
 const state = {
@@ -31,9 +40,25 @@ async function init() {
 }
 
 async function fetchMovies() {
+    // Try multiple URLs if needed, or just default to relative
+    // For simplicity in this demo, we'll try the first one, then fallback to demo mode.
+    // NOTE: If you are running Frontend on port 5500 and Backend on 3000, 
+    // relative path "/api/movies" tries to hit port 5500 and fails.
+
+    // Let's try to detect if we are on the backend port or not.
+    // But simplest is to just try fetching.
+
     try {
         console.log("Fetching from:", API_BASE);
-        const res = await fetch(API_BASE);
+        let res = await fetch(API_BASE);
+
+        // If relative failed (e.g. 404 from Live Server), try the Codespace URL
+        if (!res.ok && res.status === 404) {
+            console.log("Relative path failed, trying Codespace URL...");
+            API_BASE = API_URLS[1];
+            res = await fetch(API_BASE);
+        }
+
         if (!res.ok) throw new Error("API status " + res.status);
 
         const data = await res.json();
@@ -347,7 +372,6 @@ function updateUIState() {
 // ---------------------------------------------------------
 
 function setupEventListeners() {
-    // Search Debounce
     const searchInput = document.getElementById("search-input");
     let timeout;
     searchInput?.addEventListener("input", (e) => {
@@ -355,7 +379,6 @@ function setupEventListeners() {
         timeout = setTimeout(() => {
             state.filters.search = e.target.value;
             applyFilters();
-            // renderGrid is called inside applyFilters
         }, 300);
     });
 }
