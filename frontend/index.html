@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>SV Disney By Sergio</title>
+    <title>SV Disney+ Catalog</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- Design System: Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
 </head>
 
 <body>
-    <h1>Disney Movies App</h1>
-    <div id="movies">
-
+    <div id="app">
+        <!-- Application will be injected here -->
+        <div class="loading-screen">
+            <div class="spinner"></div>
+            <p>Loading Universe...</p>
+        </div>
     </div>
-    <script src='app.js'></script>
+
+    <script type="module" src='app.js'></script>
 </body>
 
 </html>
