@@ -10,7 +10,7 @@
     --color-text-secondary: #cacaca;
 
     /* Franchise Colors */
-    --brand-disney: #56a9ed;
+    --brand-disney: #113CCF;
     --brand-marvel: #ed1d24;
     --brand-starwars: #ffe81f;
     --brand-pixar: #c8daec;
@@ -331,17 +331,14 @@ body {
   src: url("CharlemagneBold.woff2") format("woff2"),
        url("CharlemagneBold.woff") format("woff");
 }
-@font-face {
-  font-family: "StarJedi";
-  src: url("StarJedi.ttf") format("truetype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "NatGeoSemiBold";
-  src: url("ITCStoneSansIIComCondensedSemibold.woff2") format("woff2"),
-       url("ITCStoneSansIIComCondensedSemibold.woff") format("woff");
-}
 
+
+.franchise-card[data-brand="natgeo"] {
+  font-family: 'ITC Stone Sans', 'Futura', 'Trebuchet MS', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
 .franchise-card[data-brand="disney"] {
     font-family: "Waltograph", cursive;
@@ -353,22 +350,17 @@ body {
     font-size: medium;
     letter-spacing: 5em;
     text-transform: uppercase;
+    font-size: xx-large;
 }
 
 .franchise-card[data-brand="starwars"]{
-    font-family: "StarJedi", sans-serif;
-    font-weight: bold;
+    font-family:  'Franklin Gothic Medium', 'Arial', sans-serif;
+    text-transform: uppercase;
 }
 
 .franchise-card[data-brand="pixar"]{
     font-family: "CharlemagneBold", serif;
     font-weight: bold;
-}
-
-.franchise-card[data-brand="natgeo"]{
-    font-family: "NatGeoSemiBold", sans-serif;
-    font-weight: 600;
-    text-transform: uppercase;
 }
 
 /* Hover glow effect for brands*/
