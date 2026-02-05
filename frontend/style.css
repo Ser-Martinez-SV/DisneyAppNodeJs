@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 :root {
     /* Brand Colors */
     --color-bg-main: #1A1D29;
@@ -13,7 +14,7 @@
     --brand-marvel: #ed1d24;
     --brand-starwars: #ffe81f;
     --brand-pixar: #c8daec;
-    --brand-natgeo: #f78307;
+    --brand-natgeo: #008f39;
 
     /* Spacing & Layout */
     --header-height: 70px;
@@ -318,6 +319,56 @@ body {
     transform: scale(1.05);
     border-color: #fff;
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+}
+/*Letra de cada franquicia*/
+@font-face {
+  font-family: "Waltograph";
+  src: url("Waltograph.woff2") format("woff2"),
+       url("Waltograph.woff") format("woff");
+}
+@font-face {
+  font-family: "CharlemagneBold";
+  src: url("CharlemagneBold.woff2") format("woff2"),
+       url("CharlemagneBold.woff") format("woff");
+}
+@font-face {
+  font-family: "StarJedi";
+  src: url("StarJedi.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "NatGeoSemiBold";
+  src: url("ITCStoneSansIIComCondensedSemibold.woff2") format("woff2"),
+       url("ITCStoneSansIIComCondensedSemibold.woff") format("woff");
+}
+
+
+.franchise-card[data-brand="disney"] {
+    font-family: "Waltograph", cursive;
+}
+
+.franchise-card[data-brand="marvel"]{
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 700;
+    font-size: medium;
+    letter-spacing: 5em;
+    text-transform: uppercase;
+}
+
+.franchise-card[data-brand="starwars"]{
+    font-family: "StarJedi", sans-serif;
+    font-weight: bold;
+}
+
+.franchise-card[data-brand="pixar"]{
+    font-family: "CharlemagneBold", serif;
+    font-weight: bold;
+}
+
+.franchise-card[data-brand="natgeo"]{
+    font-family: "NatGeoSemiBold", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 /* Hover glow effect for brands*/

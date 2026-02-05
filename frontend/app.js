@@ -238,7 +238,7 @@ function renderNavbar() {
     return `
         <nav class="navbar">
             <div class="nav-logo">
-                <h1>DISNEY+ CLONE</h1>
+                <h1>DISNEY SV+</h1>
             </div>
             <div class="search-container">
                 <span class="search-icon">🔍</span>
