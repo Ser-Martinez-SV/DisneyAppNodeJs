@@ -1,4 +1,5 @@
-
+//Esto es simplemente un comprobador de que la base de datos se ha creado correctamente
+//hay conectividad y responde.
 import sqlite3 from 'sqlite3';
 import { createDb } from './db.js';
 

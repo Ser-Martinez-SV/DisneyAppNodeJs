@@ -2,7 +2,7 @@
 import { Router } from "express";
 import type { Db } from "../db.js";
 
-// Type definition for our enhanced Movie model
+// Definiemos la estructura que va a tener la tabla movies.
 interface Movie {
     id: number;
     title: string;
@@ -25,13 +25,11 @@ export function createMovieRouter(db: Db) {
     r.get("/", (req, res) => {
         const { q, franchise, category } = req.query;
 
-        // In a real scenario, we would query the database dynamically.
-        // Since we are upgrading the frontend first and I cannot migrate your DB remotely,
-        // I will currently fetch everything and filtering could happen here or in memory.
-        // For now, let's try to query the DB, but fallback or maintain the existing query if needed.
-        // But to make the frontend work with the NEW design, we need specific fields.
+        // Por ahora, lo que haremos es buscar en la base de datos todos los datos y filtrarlos en memoria, aquí, en el JS.
+        // Sin embargo, en un escenario real, consultariamos la base de datos dinámicamente es decir, 
+        // filtraríammos al consultar la BD, pero es más sencillo filtrar en memoria.
 
-        // Let's assume the table 'movies' exists as per the plan.
+        // Asumimos que la tabla movies existe como se planea.
         let query = "SELECT * FROM movies WHERE 1=1";
         const params: any[] = [];
 
@@ -73,7 +71,8 @@ export function createMovieRouter(db: Db) {
     return r;
 }
 
-// MOCK DATA GENERATOR to ensure Frontend works immediately
+// Por si acaso no hay conectividad con la base de datos o hay un error o tarda en conectarse definimos unas
+// películas por defecto para que el frontend funcione correctamente al instante.
 function getMockMovies(): Movie[] {
     return [
         {
