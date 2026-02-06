@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 :root {
     /* Brand Colors */
     --color-bg-main: #1A1D29;
@@ -320,31 +321,33 @@ body {
     border-color: #fff;
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
 }
+
 /*Letra de cada franquicia*/
 @font-face {
-  font-family: "Waltograph";
-  src: url("Waltograph.woff2") format("woff2"),
-       url("Waltograph.woff") format("woff");
+    font-family: "Waltograph";
+    src: url("Waltograph.woff2") format("woff2"),
+        url("Waltograph.woff") format("woff");
 }
+
 @font-face {
-  font-family: "CharlemagneBold";
-  src: url("CharlemagneBold.woff2") format("woff2"),
-       url("CharlemagneBold.woff") format("woff");
+    font-family: "CharlemagneBold";
+    src: url("CharlemagneBold.woff2") format("woff2"),
+        url("CharlemagneBold.woff") format("woff");
 }
 
 
 .franchise-card[data-brand="natgeo"] {
-  font-family: 'ITC Stone Sans', 'Futura', 'Trebuchet MS', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    font-family: 'ITC Stone Sans', 'Futura', 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .franchise-card[data-brand="disney"] {
     font-family: "Waltograph", cursive;
 }
 
-.franchise-card[data-brand="marvel"]{
+.franchise-card[data-brand="marvel"] {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 700;
     font-size: medium;
@@ -353,12 +356,12 @@ body {
     font-size: xx-large;
 }
 
-.franchise-card[data-brand="starwars"]{
-    font-family:  'Franklin Gothic Medium', 'Arial', sans-serif;
+.franchise-card[data-brand="starwars"] {
+    font-family: 'Franklin Gothic Medium', 'Arial', sans-serif;
     text-transform: uppercase;
 }
 
-.franchise-card[data-brand="pixar"]{
+.franchise-card[data-brand="pixar"] {
     font-family: "CharlemagneBold", serif;
     font-weight: bold;
 }
@@ -402,7 +405,31 @@ body {
     display: flex;
     gap: 15px;
     overflow-x: auto;
+    overflow-x: auto;
     scrollbar-width: none;
+    align-items: center;
+    /* Center items vertically */
+}
+
+/* Grouping for Categories and Sort */
+.filter-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-separator {
+    width: 1px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 10px;
+}
+
+.filter-label {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .filter-chip {

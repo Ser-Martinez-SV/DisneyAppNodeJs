@@ -19,7 +19,8 @@ const state = {
     filters: {
         search: "",
         franchise: null,
-        category: null
+        category: null,
+        sortBy: null // 'year', 'rating', 'title'
     },
     activeMovie: null
 };
@@ -196,6 +197,22 @@ function applyFilters() {
         result = result.filter(m => m.category === state.filters.category);
     }
 
+    // Sorting Logic
+    if (state.filters.sortBy) {
+        result.sort((a, b) => {
+            switch (state.filters.sortBy) {
+                case 'year':
+                    return b.year - a.year; // Descending (Newest first)
+                case 'rating':
+                    return b.rating - a.rating; // Descending (Highest first)
+                case 'title':
+                    return a.title.localeCompare(b.title); // Ascending (A-Z)
+                default:
+                    return 0;
+            }
+        });
+    }
+
     state.filteredMovies = result;
     renderGrid();
 }
@@ -210,6 +227,18 @@ function setFilter(type, value) {
 
     applyFilters();
     updateUIState(); // Update active buttons
+}
+
+function setSort(type) {
+    if (state.filters.sortBy === type) {
+        // Optional: Toggle off if clicking the same sort? Or maybe switch direction?
+        // For now, let's just allow toggling off
+        state.filters.sortBy = null;
+    } else {
+        state.filters.sortBy = type;
+    }
+    applyFilters();
+    updateUIState();
 }
 
 // ---------------------------------------------------------
@@ -389,10 +418,21 @@ function renderFilters() {
 
     return `
         <div class="filter-bar">
-            <div class="filter-chip active" onclick="window.clearFilters()">All</div>
-            ${categories.map(cat => `
-                <div class="filter-chip" data-category="${cat}" onclick="window.filterByCategory('${cat}')">${cat}</div>
-            `).join('')}
+            <div class="filter-group">
+                <div class="filter-chip active" onclick="window.clearFilters()">All</div>
+                ${categories.map(cat => `
+                    <div class="filter-chip" data-category="${cat}" onclick="window.filterByCategory('${cat}')">${cat}</div>
+                `).join('')}
+            </div>
+            
+            <div class="filter-separator"></div>
+
+            <div class="filter-group">
+                <span class="filter-label">Sort By:</span>
+                <div class="filter-chip sort-chip" data-sort="year" onclick="window.sortBy('year')">Year</div>
+                <div class="filter-chip sort-chip" data-sort="rating" onclick="window.sortBy('rating')">Rating</div>
+                <div class="filter-chip sort-chip" data-sort="title" onclick="window.sortBy('title')">A-Z</div>
+            </div>
         </div>
     `;
 }
@@ -445,6 +485,17 @@ function updateUIState() {
         }
     });
 
+
+
+    // Update Sort Buttons
+    document.querySelectorAll('.sort-chip').forEach(el => {
+        if (el.dataset.sort === state.filters.sortBy) {
+            el.classList.add('active');
+        } else {
+            el.classList.remove('active');
+        }
+    });
+
     // Update franchises
     document.querySelectorAll('.franchise-card').forEach(el => {
         if (el.dataset.brand === state.filters.franchise) {
@@ -479,6 +530,10 @@ window.filterByFranchise = (brand) => {
     setFilter('franchise', brand);
 };
 
+window.sortBy = (type) => {
+    setSort(type);
+};
+
 window.filterByCategory = (cat) => {
     setFilter('category', cat);
 };
@@ -486,6 +541,7 @@ window.filterByCategory = (cat) => {
 window.clearFilters = () => {
     state.filters.franchise = null;
     state.filters.category = null;
+    state.filters.sortBy = null;
     state.filters.search = "";
     const searchInput = document.getElementById("search-input");
     if (searchInput) searchInput.value = "";
