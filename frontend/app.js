@@ -12,7 +12,7 @@ const API_URLS = [
 
 let API_BASE = API_URLS[0];
 
-// STATE
+
 const state = {
     allMovies: [],
     filteredMovies: [],
