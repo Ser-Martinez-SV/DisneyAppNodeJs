@@ -341,6 +341,7 @@ body {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+    padding-left: 12%;
 }
 
 .franchise-card[data-brand="disney"] {
@@ -350,7 +351,6 @@ body {
 .franchise-card[data-brand="marvel"] {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 700;
-    font-size: medium;
     letter-spacing: 5em;
     text-transform: uppercase;
     font-size: xx-large;

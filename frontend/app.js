@@ -267,11 +267,51 @@ function renderNavbar() {
     return `
         <nav class="navbar">
             <div class="nav-logo">
-                <h1>DISNEY SV+</h1>
+                <h1><a href="index.html">DISNEY SV+</a></h1>
             </div>
             <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="Search by title, character, or genre" id="search-input">
+                <span class="search-icon"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="16px" height="16px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g>
+    <path d="M493.25,402.75L393.094,302.562C407.625,274.172,416,242.094,416,208C416,93.125,322.875,0,208,0C93.109,0,0,93.125,0,208
+        s93.109,208,208,208c33.953,0,65.906-8.312,94.219-22.719c-0.031,0-0.094,0.031-0.125,0.062c0.156-0.094,0.344-0.156,0.531-0.25
+        L402.75,493.25c25.031,25,65.562,25,90.5,0C518.25,468.281,518.25,427.75,493.25,402.75z M48,208c0-88.219,71.781-160,160-160
+        c88.219,0,160,71.781,160,160s-71.781,160-160,160S48,296.219,48,208z M459.312,436.656c-6.25,6.25-16.375,6.25-22.625,0
+        l-45.25-45.25c-6.25-6.25-6.25-16.375,0-22.625s16.375-6.25,22.625,0l45.25,45.25C465.594,420.281,465.594,430.406,459.312,436.656
+        z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg></span>
+                <input type="text" class="search-input" placeholder="Buscar por título o descripción" id="search-input">
             </div>
             <div class="user-block">
                 <div class="user-avatar"></div>
@@ -368,7 +408,7 @@ function renderHero() {
                     <div class="hero-content">
                         <div class="hero-logo">${movie.title}</div>
                         <p class="hero-desc">${movie.synopsis}</p>
-                        <button class="btn-play" onclick="window.openDetail(${movie.id})">WATCH NOW</button>
+                        <button class="btn-play" onclick="window.openDetail(${movie.id})">VER</button>
                     </div>
                 </div>
             `).join('')}
@@ -428,9 +468,9 @@ function renderFilters() {
             <div class="filter-separator"></div>
 
             <div class="filter-group">
-                <span class="filter-label">Sort By:</span>
-                <div class="filter-chip sort-chip" data-sort="year" onclick="window.sortBy('year')">Year</div>
-                <div class="filter-chip sort-chip" data-sort="rating" onclick="window.sortBy('rating')">Rating</div>
+                <span class="filter-label">Ordenar por:</span>
+                <div class="filter-chip sort-chip" data-sort="year" onclick="window.sortBy('year')">Año</div>
+                <div class="filter-chip sort-chip" data-sort="rating" onclick="window.sortBy('rating')">Valoración</div>
                 <div class="filter-chip sort-chip" data-sort="title" onclick="window.sortBy('title')">A-Z</div>
             </div>
         </div>
@@ -448,7 +488,7 @@ function renderGrid() {
 
     container.innerHTML = `
         <h2 class="section-title">
-            ${state.filters.franchise ? state.filters.franchise.toUpperCase() : 'Recommended For You'}
+            ${state.filters.franchise ? state.filters.franchise.toUpperCase() : 'Recomendado'}
         </h2>
         <div class="movies-grid">
             ${state.filteredMovies.map(movie => `
@@ -569,7 +609,7 @@ window.openDetail = (id) => {
                 <span>⭐ ${movie.rating}</span>
             </div>
             <p class="modal-description">${movie.synopsis}</p>
-            <button class="btn-play">PLAY MOVIE</button>
+            <button class="btn-play">VER PELÍCULA</button>
         </div>
     `;
 
